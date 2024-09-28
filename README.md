@@ -17,7 +17,8 @@ Versão NodeJS: 22.9.0
 - ReactJs;
 - React Hooks;
 - React Router;
-- Firebase Firestore.
+- Firebase Database;
+- Netlify.
 
 ## Como rodar?
 
