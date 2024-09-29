@@ -1,11 +1,14 @@
-import ConteudoHomePage from "../components/ConteudoHomePage"
+import ConteudoHomePage from "../components/ConteudoHomePageDenunciante"
 import Navbar from "../components/Navbar"
+import { getUserData } from "../utils"
 
 const Home = () => {
+    const { tipo } = getUserData()
+
     return (
         <section>
             <Navbar />
-            <ConteudoHomePage/>
+            {(tipo && tipo === 'denunciante') && <ConteudoHomePage/>}
         </section>
     )
 }

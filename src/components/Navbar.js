@@ -7,7 +7,7 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <button className="home-button" onClick={() => navigate('/')}>Sistema de Denúncias</button>
+            <button className="home-button" onClick={() => navigate('/')}>SOS Proteção Social</button>
             {nome ? 
                 <div className="login-button-content"><p className="name-text">{nome}</p><img src='/login-icon.png' alt="login-incon" width={48} height={48}/></div>
             :

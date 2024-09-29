@@ -24,7 +24,8 @@ const CadastroDenunciaPage = () => {
         cep: '',
         descricao: '',
         dataCriacao: '',
-        protocolo: ''
+        protocolo: '',
+        status: 'Em aberto'
     });
 
     const [user, hasUser] = useState(false)
@@ -73,13 +74,16 @@ const CadastroDenunciaPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const dataCriacao = new Date(); 
+        const dataFormatada = new Intl.DateTimeFormat('pt-BR').format(dataCriacao);
         try {
             const protocoloGerado = gerarProtocolo()
-            const docRef = await addDoc(collection(db, "denuncias"), {
+            await addDoc(collection(db, "denuncias"), {
                 nome: formData.nome,
                 cpf: formData.cpf,
                 email: formData.email,
                 telefone: formData.telefone,
+                tipo: 'denunciante',
                 endereco: formData.endereco,
                 numero: formData.numero,
                 complemento: formData.complemento,
@@ -88,8 +92,9 @@ const CadastroDenunciaPage = () => {
                 estado: formData.estado,
                 cep: formData.cep,
                 descricao: formData.descricao,
-                dataCriacao: new Date(),
-                protocolo: protocoloGerado
+                dataCriacao: dataFormatada,
+                protocolo: protocoloGerado,
+                status: 'Em aberto'
 
             });
             alert('Denúncia enviada com sucesso!');

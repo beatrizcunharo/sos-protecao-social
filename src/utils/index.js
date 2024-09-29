@@ -1,3 +1,6 @@
+import { db } from '../firebaseConnection';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+
 export function logout() {
     localStorage.removeItem('userData');
     window.location.href = '/login';
@@ -13,4 +16,42 @@ export function gerarProtocolo() {
     const numeroComZeros = numero.toString().padStart(6, '0');
     
     return numeroComZeros;
+}
+
+export const getDenunciasPorEmail = async () => {
+    const {email} = getUserData();
+
+    if (!email) {
+        throw new Error("Email não fornecido");
+    }
+
+    try {
+        const denunciasRef = collection(db, "denuncias");
+        
+        const q = query(denunciasRef, where("email", "==", email));
+        
+        const querySnapshot = await getDocs(q);
+        
+        const denunciasEncontradas = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        return {
+            status: "success",
+            data: denunciasEncontradas
+        };
+    } catch (error) {
+        console.error("Erro ao buscar denúncias: ", error);
+
+        return {
+            status: "error",
+            message: error.message
+        };
+    }
+};
+
+export const getDenunciasPorEmailSync = async () => {
+    const denuncias = await getDenunciasPorEmail()
+    return denuncias
 }
