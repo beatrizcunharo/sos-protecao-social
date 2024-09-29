@@ -25,7 +25,8 @@ const CadastroDenunciaPage = () => {
         descricao: '',
         dataCriacao: '',
         protocolo: '',
-        status: 'Em aberto'
+        status: 'Em aberto',
+        prioridade: 'Baixa'
     });
 
     const [user, hasUser] = useState(false)
@@ -94,7 +95,8 @@ const CadastroDenunciaPage = () => {
                 descricao: formData.descricao,
                 dataCriacao: dataFormatada,
                 protocolo: protocoloGerado,
-                status: 'Em aberto'
+                status: 'Em aberto',
+                prioridade: 'Baixa'
 
             });
             alert('Denúncia enviada com sucesso!');

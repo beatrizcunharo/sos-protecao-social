@@ -4,6 +4,7 @@ import Login from '../pages/LoginPage.js';
 import CadastroUsuarioPage from '../pages/CadastroUsuarioPage.js';
 import CadastroDenunciaPage from '../pages/CadastroDenunciaPage.js';
 import PaginaSucesso from '../pages/PaginaSucesso.js';
+import DetalhesDenunciaPage from '../pages/DetalhesDenunciaPage.js';
 
 function RoutesApp () {
     return (
@@ -13,6 +14,7 @@ function RoutesApp () {
             <Route path='/cadastro-usuario' element={ <CadastroUsuarioPage/> }/>
             <Route path='/cadastro-denuncia' element={ <CadastroDenunciaPage/> }/>
             <Route path='/sucesso' element={ <PaginaSucesso/> }/>
+            <Route path='/detalhes-denuncia' element={ <DetalhesDenunciaPage/> }/>
         </Routes>
     )
 }

@@ -7,7 +7,7 @@ export function logout() {
 }
 
 export function getUserData() {
-    return JSON.parse(localStorage.getItem('userData'));
+    return JSON.parse(localStorage.getItem('userData')) || {};
 }
 
 export function gerarProtocolo() {
@@ -51,7 +51,39 @@ export const getDenunciasPorEmail = async () => {
     }
 };
 
+export const getDenuncias = async () => {
+    try {
+        const denunciasRef = collection(db, "denuncias");
+        
+        const q = query(denunciasRef);
+        
+        const querySnapshot = await getDocs(q);
+        
+        const denunciasEncontradas = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        return {
+            status: "success",
+            data: denunciasEncontradas
+        };
+    } catch (error) {
+        console.error("Erro ao buscar denúncias: ", error);
+
+        return {
+            status: "error",
+            message: error.message
+        };
+    }
+};
+
 export const getDenunciasPorEmailSync = async () => {
     const denuncias = await getDenunciasPorEmail()
+    return denuncias
+}
+
+export const getDenunciasSync = async () => {
+    const denuncias = await getDenuncias()
     return denuncias
 }

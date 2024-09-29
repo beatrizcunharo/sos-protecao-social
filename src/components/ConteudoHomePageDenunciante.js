@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getDenunciasPorEmailSync, getUserData } from "../utils"
+import { getDenunciasPorEmailSync, getDenunciasSync, getUserData } from "../utils"
 import MinhasDenuncias from "./MinhasDenuncias"
 import { useNavigate } from "react-router"
 
@@ -28,10 +28,28 @@ const ConteudoHomePageDenunciante = () => {
             }
         };
 
+        const fetchDenunciasAll = async () => {
+            try {
+                const denuncias = await getDenunciasSync();
+
+                if (denuncias.status === "success") {
+                    setDenuncias(denuncias.data);
+                } else {
+                    console.error("Erro: ", denuncias.message);
+                }
+            } catch (error) {
+                console.error("Erro ao buscar denúncias: ", error);
+            }
+        };
+
         if (email) {
             fetchDenuncias();
+        } else {
+            if(protocoloBusca.length === 6) {
+                fetchDenunciasAll();
+            }
         }
-    }, [email]);
+    }, [protocoloBusca]);
 
     const hasLowHeight = (denuncias && denuncias.length > 0) && '700px'
     const denunciasFiltradas = denuncias && denuncias.filter(item => 
@@ -54,7 +72,7 @@ const ConteudoHomePageDenunciante = () => {
                         />
                     </div>
                 </div>
-                {(denuncias && denuncias.length > 0) && <MinhasDenuncias denuncias={denunciasFiltradas} />}
+                {(denuncias && denuncias.length > 0) && <MinhasDenuncias denuncias={denunciasFiltradas} hasUser={email} />}
             </section>
         </section>
     )
