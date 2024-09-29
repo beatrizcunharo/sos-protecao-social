@@ -6,9 +6,9 @@ const Navbar = () => {
         <nav className="navbar">
             <button className="home-button">Sistema de Denúncias</button>
             {name ? 
-                <div className="login-button-content"><p className="name-text">{name}</p><img src='/login-icon.png' width={48} height={48}/></div>
+                <div className="login-button-content"><p className="name-text">{name}</p><img src='/login-icon.png' alt="login-incon" width={48} height={48}/></div>
             :
-                <button className="not-logged-button"><img src='/lucide-user-round.png' width={24} height={24} /> <p>Login</p></button>
+                <button className="not-logged-button"><img src='/lucide-user-round.png' alt="user-round" width={24} height={24} /> <p>Login</p></button>
             }
         </nav>
     )
