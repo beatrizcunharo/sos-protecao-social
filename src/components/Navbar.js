@@ -1,14 +1,17 @@
-import { getNameLogin } from "../utils"
+import { useNavigate } from "react-router"
+import { getUserData } from "../utils"
 
 const Navbar = () => {
-    const name = getNameLogin()
+    const { nome } = getUserData()
+    const navigate = useNavigate()
+
     return (
         <nav className="navbar">
-            <button className="home-button">Sistema de Denúncias</button>
-            {name ? 
-                <div className="login-button-content"><p className="name-text">{name}</p><img src='/login-icon.png' alt="login-incon" width={48} height={48}/></div>
+            <button className="home-button" onClick={() => navigate('/')}>Sistema de Denúncias</button>
+            {nome ? 
+                <div className="login-button-content"><p className="name-text">{nome}</p><img src='/login-icon.png' alt="login-incon" width={48} height={48}/></div>
             :
-                <button className="not-logged-button"><img src='/lucide-user-round.png' alt="user-round" width={24} height={24} /> <p>Login</p></button>
+                <button className="not-logged-button" onClick={() => navigate('/login')}><img src='/lucide-user-round.png' alt="user-round" width={24} height={24} /> <p>Login</p></button>
             }
         </nav>
     )

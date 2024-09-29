@@ -22,9 +22,15 @@ const Login = () => {
         if (!querySnapshot.empty) {
             const userData = querySnapshot.docs[0].data();
             const nome = userData.nome;
+            const tipo = userData.tipo;
 
-            localStorage.setItem('userEmail', email);
-            localStorage.setItem('userName', nome);
+            const options = {
+                email,
+                nome,
+                tipo
+            }
+
+            localStorage.setItem('userData', JSON.stringify(options));
             alert('Login efetuado.');
             navigator('/')
         } else {
@@ -55,8 +61,8 @@ const Login = () => {
                 </div>
                 <button className="button-login" disabled={email === '' || senha === ''}>Login</button>
                 <div className="other-links-login">
-                    <a href="/criar-conta"><u>Criar conta</u></a>
-                    <a href="/esqueci-senha"><u>Esqueci minha senha</u></a>
+                    <a href="/cadastro-usuario"><u>Criar conta</u></a>
+                    <a><u>Esqueci minha senha</u></a>
                 </div>
             </form>
         </section>
