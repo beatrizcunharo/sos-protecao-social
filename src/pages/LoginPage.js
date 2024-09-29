@@ -11,10 +11,13 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        if(email === '' || senha === '') {
+            alert('Preencha os campos.');
+            return;
+        }
+
         const q = query(collection(db, 'usuarios'), where('email', '==', email), where('senha', '==', senha));
         const querySnapshot = await getDocs(q);
-
-        console.log("teste",querySnapshot)
 
         if (!querySnapshot.empty) {
             const userData = querySnapshot.docs[0].data();
@@ -50,7 +53,7 @@ const Login = () => {
                         onChange={(e) => setSenha(e.target.value)}
                     />
                 </div>
-                <button className="button-login">Login</button>
+                <button className="button-login" disabled={email === '' || senha === ''}>Login</button>
                 <div className="other-links-login">
                     <a href="/criar-conta"><u>Criar conta</u></a>
                     <a href="/esqueci-senha"><u>Esqueci minha senha</u></a>

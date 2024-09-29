@@ -20,8 +20,16 @@ const CadastroUsuarioPage = () => {
         });
     };
 
+    function disabledButton () {
+        if(formData.nome === '' || formData.email === '' || formData.telefone === '' || formData.cpf === '' || formData.senha === '' || formData.confirmarSenha === '') return true
+
+        return false
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if(formData.nome === '' || formData.email === '' || formData.telefone === '' || formData.cpf === '' || formData.senha === '' || formData.confirmarSenha === '') return;
 
         if (formData.senha !== formData.confirmarSenha) {
             alert('As senhas não coincidem');
@@ -104,7 +112,7 @@ const CadastroUsuarioPage = () => {
                         onChange={handleInputChange}
                     />
                 </div>
-                <button className="button-cadastro">Cadastrar</button>
+                <button className="button-cadastro" disabled={disabledButton()}>Cadastrar</button>
                 <a className="cadastro-usuario-link" href="/login"><u>Já tem uma conta? Clique aqui</u></a>
             </form>
         </section>
