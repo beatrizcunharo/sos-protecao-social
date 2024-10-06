@@ -2,6 +2,8 @@
 
 Projeto para visualização da engenharia coginitiva de interação humano computador
 
+Obs: Este projeto NÂO É RESPONSIVO. Feito apenas na versão desktop para cumprir as exigências da matéria de interação humano computador da Universidade Federal de Juiz de Fora.
+
 ## Links
 
 Link do projeto em produção: 
