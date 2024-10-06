@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router"
 import { getUserData } from "../utils"
+import TituloForm from "./TituloForm"
 
 const DetalhesDenunciaTable = ({ details }) => {
     const userData = getUserData()
@@ -9,9 +10,9 @@ const DetalhesDenunciaTable = ({ details }) => {
 
     return (
         <section className="section-denuncia-table">
-            {userData.tipo === 'admin' && <p className="title-table-denuncia">Denúncias</p>}
+            {userData.tipo === 'admin' && <TituloForm titulo='Denúncias' />}
             <section className="table-container">
-                <div className="table-wrapper" style={{maxHeight: maxHeight}}>
+                <div className="table-wrapper" style={{ maxHeight: maxHeight }}>
                     <table className="denuncia-table">
                         <thead>
                             <tr className="titulo-denuncias-table">

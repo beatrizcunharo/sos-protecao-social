@@ -1,5 +1,5 @@
 import { db } from '../firebaseConnection';
-import { collection, query, getDocs, where, addDoc } from 'firebase/firestore';
+import { collection, query, getDocs, where, addDoc, updateDoc } from 'firebase/firestore';
 import { getUserData } from '../utils';
 
 export const getDenunciasPorEmail = async () => {
@@ -117,6 +117,32 @@ export const cadastroDenuncia = async ({ formData }) => {
 
     } catch (error) {
         console.error("Erro ao cadastrar denuncia: ", error);
+        return {
+            status: "error",
+            message: error.message
+        }
+    }
+}
+
+export const atualizarDenuncia = async ({ protocolo, formData }) => {
+
+    if(!protocolo || !formData) return ;
+
+    try {
+        const q = query(collection(db, "denuncias"), where("protocolo", "==", protocolo));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const docRef = querySnapshot.docs[0].ref;
+            await updateDoc(docRef, formData);
+        }
+
+        return {
+            status: "success"
+        }
+
+    } catch (error) {
+        console.error("Erro ao atualizar denuncia: ", error);
         return {
             status: "error",
             message: error.message

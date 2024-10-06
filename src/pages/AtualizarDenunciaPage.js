@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import Navbar from "../components/Navbar/index.js";
-import { db } from '../firebaseConnection'
-import { collection, getDocs, query, where, updateDoc } from 'firebase/firestore';
 import { useNavigate } from "react-router";
+import { atualizarDenuncia, getDenunciasPorProtocoloSync } from "../services/DenunciaService.js";
+import TituloForm from "../components/TituloForm.js";
 
 const AtualizarDenunciaPage = () => {
     const location = useLocation();
@@ -33,11 +33,10 @@ const AtualizarDenunciaPage = () => {
         async function getDenunciaDetail() {
             try {
 
-                const q = query(collection(db, 'denuncias'), where('protocolo', '==', protocolo));
-                const querySnapshot = await getDocs(q);
+                const querySnapshot = await getDenunciasPorProtocoloSync({ protocolo: protocolo });
 
-                if (!querySnapshot.empty) {
-                    const denunciaData = querySnapshot.docs[0].data();
+                if (!querySnapshot.data.empty) {
+                    const denunciaData = querySnapshot.data[0];
 
                     const options = {
                         nome: denunciaData.nome,
@@ -83,33 +82,30 @@ const AtualizarDenunciaPage = () => {
         e.preventDefault();
         try {
 
-            const q = query(collection(db, "denuncias"), where("protocolo", "==", protocolo));
-            const querySnapshot = await getDocs(q);
+            const formDataObject = {
+                nome: detailsDenuncia.nome,
+                cpf: detailsDenuncia.cpf,
+                email: detailsDenuncia.email,
+                telefone: detailsDenuncia.telefone,
+                tipo: detailsDenuncia.tipo,
+                endereco: detailsDenuncia.endereco,
+                numero: detailsDenuncia.numero,
+                complemento: detailsDenuncia.complemento,
+                bairro: detailsDenuncia.bairro,
+                cidade: detailsDenuncia.cidade,
+                estado: detailsDenuncia.estado,
+                cep: detailsDenuncia.cep,
+                descricao: detailsDenuncia.descricao,
+                dataCriacao: detailsDenuncia.dataCriacao,
+                status: detailsDenuncia.status,
+                prioridade: detailsDenuncia.prioridade,
+                medidas: detailsDenuncia.medidas
+            }
+            const querySnapshot = await atualizarDenuncia({ protocolo: protocolo, formData: formDataObject });
 
-            if (!querySnapshot.empty) {
-                const docRef = querySnapshot.docs[0].ref;
-                await updateDoc(docRef, {
-                    nome: detailsDenuncia.nome,
-                    cpf: detailsDenuncia.cpf,
-                    email: detailsDenuncia.email,
-                    telefone: detailsDenuncia.telefone,
-                    tipo: detailsDenuncia.tipo,
-                    endereco: detailsDenuncia.endereco,
-                    numero: detailsDenuncia.numero,
-                    complemento: detailsDenuncia.complemento,
-                    bairro: detailsDenuncia.bairro,
-                    cidade: detailsDenuncia.cidade,
-                    estado: detailsDenuncia.estado,
-                    cep: detailsDenuncia.cep,
-                    descricao: detailsDenuncia.descricao,
-                    dataCriacao: detailsDenuncia.dataCriacao,
-                    status: detailsDenuncia.status,
-                    prioridade: detailsDenuncia.prioridade,
-                    medidas: detailsDenuncia.medidas
-                });
+            if (querySnapshot.status === 'success') {
                 alert('Denúncia alterada com sucesso!');
-                navigate('/sucesso', { state: { title: 'Denúncia Atualizada'} })
-
+                navigate('/sucesso', { state: { title: 'Denúncia Atualizada' } })
             }
         } catch (e) {
             console.error("Erro ao atualizar o documento: ", e);
@@ -122,10 +118,10 @@ const AtualizarDenunciaPage = () => {
             <Navbar />
             <form className="section-detalhe-denuncia" onSubmit={handleSubmit}>
                 <div>
-                    <p className="title-detalhe-denuncia">Dados do denunciante</p>
+                    <TituloForm titulo="Dados do denunciante" temVoltar caminho='/' />
                     <div className="form-detalhe-denuncia">
                         <div>
-                            <p className="text-input-detalhe-denuncia">Nome Completo</p>
+                            <TituloForm descricao="Nome Completo" />
                             <input
                                 className="input-denuncia"
                                 name="nome"
@@ -135,7 +131,8 @@ const AtualizarDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">CPF</p>
+                            <TituloForm descricao="CPF" />
+
                             <input
                                 className="input-denuncia"
                                 name="cpf"
@@ -144,7 +141,7 @@ const AtualizarDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">E-mail</p>
+                            <TituloForm descricao="E-mail" />
                             <input
                                 className="input-denuncia"
                                 name="email"
@@ -154,7 +151,7 @@ const AtualizarDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Telefone</p>
+                            <TituloForm descricao="Telefone" />
                             <input
                                 className="input-denuncia"
                                 name="telefone"
@@ -165,10 +162,10 @@ const AtualizarDenunciaPage = () => {
                     </div>
                 </div>
                 <div>
-                    <p className="title-detalhe-denuncia">Local da denúncia</p>
+                    <TituloForm titulo="Local da denúncia" />
                     <div className="form-detalhe-denuncia">
                         <div>
-                            <p className="text-input-detalhe-denuncia">Endereço</p>
+                            <TituloForm descricao="Endereço" />
                             <input
                                 className="input-denuncia"
                                 name="endereco"
@@ -177,7 +174,7 @@ const AtualizarDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Número</p>
+                            <TituloForm descricao="Número" />
                             <input
                                 className="input-denuncia"
                                 name="numero"
@@ -187,7 +184,7 @@ const AtualizarDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Complemento</p>
+                            <TituloForm descricao="Complemento" />
                             <input
                                 className="input-denuncia"
                                 name="complemento"
@@ -197,7 +194,7 @@ const AtualizarDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Bairro</p>
+                            <TituloForm descricao="Bairro" />
                             <input
                                 className="input-denuncia"
                                 name="bairro"
@@ -207,7 +204,7 @@ const AtualizarDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Cidade</p>
+                            <TituloForm descricao="Cidade" />
                             <input
                                 className="input-denuncia"
                                 name="cidade"
@@ -216,7 +213,7 @@ const AtualizarDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Estado</p>
+                            <TituloForm descricao="Estado" />
                             <input
                                 className="input-denuncia"
                                 name="estado"
@@ -225,7 +222,7 @@ const AtualizarDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">CEP</p>
+                            <TituloForm descricao="CEP" />
                             <input
                                 className="input-denuncia"
                                 name="cep"
@@ -236,7 +233,7 @@ const AtualizarDenunciaPage = () => {
                     </div>
                 </div>
                 <div>
-                    <p className="title-detalhe-denuncia">Descrição da denúncia</p>
+                    <TituloForm titulo="Descrição da denúncia" />
                     <form className="form-detalhe-denuncia">
                         <textarea
                             className="input-denuncia"
@@ -248,10 +245,10 @@ const AtualizarDenunciaPage = () => {
                     </form>
                 </div>
                 <div>
-                    <p className="title-detalhe-denuncia">Situação da denúncia</p>
+                    <TituloForm titulo="Situação da denúncia" />
                     <div className="form-detalhe-denuncia">
                         <div>
-                            <p className="text-input-detalhe-denuncia">Prioridade</p>
+                            <TituloForm descricao="Prioridade" />
                             <select
                                 className="input-denuncia"
                                 name="prioridade"
@@ -265,7 +262,7 @@ const AtualizarDenunciaPage = () => {
                             </select>
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Situação</p>
+                            <TituloForm descricao="Situação" />
                             <select
                                 className="input-denuncia"
                                 name="status"
@@ -282,9 +279,9 @@ const AtualizarDenunciaPage = () => {
                     </div>
                 </div>
                 <div>
-                    <p className="title-detalhe-denuncia">Medidas tomadas</p>
+                    <TituloForm titulo="Medidas tomadas" />
                     <div className="form-detalhe-denuncia">
-                        <p className="text-input-detalhe-denuncia">Descrições das Ações Tomadas</p>
+                        <TituloForm descricao="Descrições das Ações Tomadas" />
                         <textarea
                             className="input-denuncia"
                             name="medidas"

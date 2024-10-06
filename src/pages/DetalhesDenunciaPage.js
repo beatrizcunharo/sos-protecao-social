@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import Navbar from "../components/Navbar/index.js";
-import { db } from '../firebaseConnection'
-import { collection, getDocs, query, where } from 'firebase/firestore';
 import TituloForm from "../components/TituloForm.js";
+import { getDenunciasPorProtocoloSync } from "../services/DenunciaService.js";
 
 const DetalhesDenunciaPage = () => {
     const location = useLocation();
@@ -31,13 +30,12 @@ const DetalhesDenunciaPage = () => {
     useEffect(() => {
         async function getDenunciaDetail() {
             try {
+               
+                const querySnapshot = await getDenunciasPorProtocoloSync({protocolo})
 
-                const q = query(collection(db, 'denuncias'), where('protocolo', '==', protocolo));
-                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.data.empty) {
 
-
-                if (!querySnapshot.empty) {
-                    const denunciaData = querySnapshot.docs[0].data();
+                    const denunciaData = querySnapshot.data[0];
 
                     const options = {
                         nome: denunciaData.nome,

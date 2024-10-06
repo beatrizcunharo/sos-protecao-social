@@ -25,7 +25,7 @@ const Navbar = () => {
             <div>
                 <button className="navbar-button" onClick={() => navigate('/')}>SOS Proteção Social</button>
                 {tipoAssistenteOuAdmin && <button className="navbar-button button-other-section" onClick={() => navigate('/')}>Denúncias</button>}
-                {tipoAssistenteOuAdmin && <button className="navbar-button" onClick={() => navigate('/')}>Mapa de denúncias</button>}
+                {tipoAssistenteOuAdmin && <button className="navbar-button" onClick={() => navigate('/mapa-denuncia')}>Mapa de denúncias</button>}
                 {tipoAdmin && <button className="navbar-button" onClick={() => navigate('/')}>Usuários</button>}
             </div>
             {nome ?

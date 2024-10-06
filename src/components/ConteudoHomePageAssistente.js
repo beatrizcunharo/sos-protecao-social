@@ -24,7 +24,7 @@ const ConteudoHomePageAssistente = () => {
     }, [])
 
     return (
-        <section className="section-conteudo-home-page">
+        <section>
             <DetalhesDenunciaTable details={denuncias}/>
         </section>
     )
