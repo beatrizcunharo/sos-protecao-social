@@ -1,17 +1,12 @@
 import { useNavigate } from "react-router"
-import { getUserData } from "../utils"
 
 const DetalhesUsuariosTable = ({ usuarios }) => {
-    const userData = getUserData()
     const navigate = useNavigate()
-
-    const maxHeight = userData.tipo === 'assistente' ? '800px' : '500px'
 
     return (
         <section className="section-usuarios-table">
-            <p className="title-table-usuarios">Usuários do SOS Proteção Social</p>
             <section className="table-container">
-                <div className="table-wrapper" style={{maxHeight: maxHeight}}>
+                <div className="table-wrapper">
                     <table className="usuarios-table">
                         <thead>
                             <tr className="titulo-usuarios-table">

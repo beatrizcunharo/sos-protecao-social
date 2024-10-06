@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { db } from '../firebaseConnection';
-import { collection, getDocs, query, where, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
 import Navbar from "../components/Navbar/index.js";
 import { useNavigate } from "react-router";
+import { atualizarUsuario, cadastroUsuario, deletarUsuario, getUsuariosByEmail } from "../services/UsuarioService.js";
+import TituloForm from "../components/TituloForm.js";
 
 const CadastrarAtualizarUsuarioPage = () => {
     const location = useLocation();
@@ -24,12 +24,10 @@ const CadastrarAtualizarUsuarioPage = () => {
 
             if (!email) return;
             try {
-                const q = query(collection(db, 'usuarios'), where('email', '==', email));
-                const querySnapshot = await getDocs(q);
+                const querySnapshot = await getUsuariosByEmail({ email });
 
-
-                if (!querySnapshot.empty) {
-                    const userData = querySnapshot.docs[0].data();
+                if (!querySnapshot.data.empty) {
+                    const userData = querySnapshot.data[0];
 
                     const options = {
                         nome: userData.nome,
@@ -74,9 +72,11 @@ const CadastrarAtualizarUsuarioPage = () => {
                 confirmarSenha: formData.senha,
                 tipo: formData.tipo
             }
-            await addDoc(collection(db, "usuarios"), options);
-            alert('Usuário cadastrado com sucesso.');
-            navigate('/sucesso', { state: { title: 'Usuário Registrado' } })
+            const cadastroUsuarioData = await cadastroUsuario({ formData: options })
+            if (cadastroUsuarioData.status === 'success') {
+                alert('Usuário cadastrado com sucesso.');
+                navigate('/sucesso', { state: { title: 'Usuário Registrado' } })
+            }
         }
         catch (e) {
             console.error("Erro ao criar usuário: ", e);
@@ -87,25 +87,22 @@ const CadastrarAtualizarUsuarioPage = () => {
     const updateUser = async (e) => {
         e.preventDefault();
         try {
-            const q = query(collection(db, 'usuarios'), where('email', '==', email));
-            const querySnapshot = await getDocs(q);
 
-            if (!querySnapshot.empty) {
-                const docRef = querySnapshot.docs[0].ref;
-                await updateDoc(docRef, {
-                    nome: formData.nome,
-                    email: formData.email,
-                    telefone: formData.telefone,
-                    cpf: formData.cpf,
-                    senha: formData.senha,
-                    confirmarSenha: formData.senha,
-                    tipo: formData.tipo
-                });
-
+            const options = {
+                nome: formData.nome,
+                email: formData.email,
+                telefone: formData.telefone,
+                cpf: formData.cpf,
+                senha: formData.senha,
+                confirmarSenha: formData.senha,
+                tipo: formData.tipo
+            }
+            const atualizaUsuario = await atualizarUsuario({ email: email, formData: options })
+            if (atualizaUsuario.status === 'success') {
                 alert('Usuário atualizado com sucesso.');
                 navigate('/sucesso', { state: { title: 'Usuário Atualizado' } })
             }
-        }catch (e) {
+        } catch (e) {
             console.error("Erro ao atualizar usuário: ", e);
             alert('Erro. Tente novamente.');
         }
@@ -114,16 +111,13 @@ const CadastrarAtualizarUsuarioPage = () => {
     const deleteUser = async (e) => {
         e.preventDefault();
         try {
-            const q = query(collection(db, 'usuarios'), where('email', '==', email));
-            const querySnapshot = await getDocs(q);
-    
-            if (!querySnapshot.empty) {
-                querySnapshot.forEach(async (doc) => {
-                    await deleteDoc(doc.ref);
-                    alert('Usuário deletado com sucesso.');
-                    navigate('/sucesso', { state: { title: 'Usuário Deletado' } })
-                });
-            } 
+
+            const usuarioDeletado = await deletarUsuario({ email: email })
+
+            if (usuarioDeletado.status === 'success') {
+                alert('Usuário deletado com sucesso.');
+                navigate('/sucesso', { state: { title: 'Usuário Deletado' } })
+            }
         } catch (error) {
             console.error('Erro ao deletar usuário: ', error);
         }
@@ -134,10 +128,10 @@ const CadastrarAtualizarUsuarioPage = () => {
             <Navbar />
             <form className="section-cadastro-atualiza-usuario" onSubmit={handleSubmit}>
                 <div>
-                    <p className="title-cadastro-atualizar-usuario">Dados do usuário</p>
+                    <TituloForm titulo="Dados do usuário" temVoltar caminho="/usuarios-tabela" />
                     <div className="form-cadastro-atualiza-usuario">
                         <div>
-                            <p className="text-input-cadastro-atualiza-usuario">Nome Completo</p>
+                            <TituloForm descricao="Nome Completo" />
                             <input
                                 className="input-detail-usuario"
                                 name="nome"
@@ -147,7 +141,7 @@ const CadastrarAtualizarUsuarioPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-cadastro-atualiza-usuario">CPF</p>
+                            <TituloForm descricao="CPF" />
                             <input
                                 className="input-detail-usuario"
                                 name="cpf"
@@ -156,7 +150,7 @@ const CadastrarAtualizarUsuarioPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-cadastro-atualiza-usuario">E-mail</p>
+                            <TituloForm descricao="E-mail" />
                             <input
                                 className="input-detail-usuario"
                                 name="email"
@@ -166,7 +160,7 @@ const CadastrarAtualizarUsuarioPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-cadastro-atualiza-usuario">Telefone</p>
+                            <TituloForm descricao="Telefone" />
                             <input
                                 className="input-detail-usuario"
                                 name="telefone"
@@ -175,7 +169,7 @@ const CadastrarAtualizarUsuarioPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-cadastro-atualiza-usuario">Tipo</p>
+                            <TituloForm descricao="Tipo" />
                             <select
                                 className="input-detail-usuario"
                                 name="tipo"
@@ -189,7 +183,7 @@ const CadastrarAtualizarUsuarioPage = () => {
                             </select>
                         </div>
                         <div>
-                            <p className="text-input-cadastro-atualiza-usuario">Senha</p>
+                            <TituloForm descricao="Senha" />
                             <input
                                 className="input-detail-usuario"
                                 name="senha"

@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react"
 import { getDenunciasSync } from "../services/DenunciaService";
 import DetalhesDenunciaTable from "./DetalhesDenunciaTable";
-import DetalhesUsuariosTable from "./DetalhesUsuariosTable";
-import { getUsuariosSync } from "../utils";
 
 const ConteudoHomePageAdmin = () => {
     const [denuncias, setDenuncias] = useState();
-    const [usuarios, setUsuarios] = useState();
     
     useEffect(() => {
         const fetchDenunciasAll = async () => {
@@ -23,28 +20,12 @@ const ConteudoHomePageAdmin = () => {
             }
         };
 
-        const fetchUsuariosAll = async () => {
-            try {
-                const usuarios = await getUsuariosSync();
-
-                if (usuarios.status === "success") {
-                    setUsuarios(usuarios.data);
-                } else {
-                    console.error("Erro: ", usuarios.message);
-                }
-            } catch (error) {
-                console.error("Erro ao buscar denúncias: ", error);
-            }
-        };
-
         fetchDenunciasAll();
-        fetchUsuariosAll();
     }, [])
 
     return (
-        <section className="section-conteudo-home-page">
+        <section>
             <DetalhesDenunciaTable details={denuncias}/>
-            <DetalhesUsuariosTable usuarios={usuarios}/>
         </section>
     )
 }

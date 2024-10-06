@@ -8,6 +8,7 @@ import Login from '../pages/LoginPage/index.js';
 import Home from '../pages/HomePage/index.js';
 import SucessoPage from '../pages/SucessoPage/index.js';
 import MapaDenunciaPage from '../pages/MapaDenunciaPage.js';
+import UsuariosTabelaPage from '../pages/UsuariosTabelaPage.js';
 
 function RoutesApp () {
     return (
@@ -21,6 +22,7 @@ function RoutesApp () {
             <Route path='/atualizar-denuncia' element={ <AtualizarDenunciaPage/> }/>
             <Route path='/cadastrar-atualizar-usuario' element={ <CadastrarAtualizarUsuarioPage/> }/>
             <Route path='/mapa-denuncia' element={ <MapaDenunciaPage/> }/>
+            <Route path='/usuarios-tabela' element={ <UsuariosTabelaPage/> }/>
         </Routes>
     )
 }

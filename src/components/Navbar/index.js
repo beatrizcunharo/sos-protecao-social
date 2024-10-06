@@ -26,7 +26,7 @@ const Navbar = () => {
                 <button className="navbar-button" onClick={() => navigate('/')}>SOS Proteção Social</button>
                 {tipoAssistenteOuAdmin && <button className="navbar-button button-other-section" onClick={() => navigate('/')}>Denúncias</button>}
                 {tipoAssistenteOuAdmin && <button className="navbar-button" onClick={() => navigate('/mapa-denuncia')}>Mapa de denúncias</button>}
-                {tipoAdmin && <button className="navbar-button" onClick={() => navigate('/')}>Usuários</button>}
+                {tipoAdmin && <button className="navbar-button" onClick={() => navigate('/usuarios-tabela')}>Usuários</button>}
             </div>
             {nome ?
                 <div className='div-button-login'>

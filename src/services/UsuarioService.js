@@ -1,5 +1,5 @@
 import { db } from '../firebaseConnection';
-import { collection, query, getDocs, where, addDoc } from 'firebase/firestore';
+import { collection, query, getDocs, where, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 export const cadastroUsuario = async ({ formData }) => {
 
@@ -44,3 +44,56 @@ export const getUsuariosByEmail = async ({email}) => {
         };
     }
 };
+
+export const atualizarUsuario = async ({ email, formData }) => {
+
+    if(!email || !formData) return ;
+
+    try {
+        const q = query(collection(db, 'usuarios'), where('email', '==', email));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const docRef = querySnapshot.docs[0].ref;
+            await updateDoc(docRef, formData);
+        }
+
+        return {
+            status: "success"
+        }
+
+    } catch (error) {
+        console.error("Erro ao atualizar usuário: ", error);
+        return {
+            status: "error",
+            message: error.message
+        }
+    }
+}
+
+export const deletarUsuario = async ({ email }) => {
+
+    if(!email) return ;
+
+    try {
+        const q = query(collection(db, 'usuarios'), where('email', '==', email));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            querySnapshot.forEach(async (doc) => {
+                await deleteDoc(doc.ref);
+            });
+        }
+
+        return {
+            status: "success"
+        }
+
+    } catch (error) {
+        console.error("Erro ao atualizar usuário: ", error);
+        return {
+            status: "error",
+            message: error.message
+        }
+    }
+}

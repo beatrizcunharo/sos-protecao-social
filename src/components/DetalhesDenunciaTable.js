@@ -6,13 +6,11 @@ const DetalhesDenunciaTable = ({ details }) => {
     const userData = getUserData()
     const navigate = useNavigate()
 
-    const maxHeight = userData.tipo === 'assistente' ? '800px' : '500px'
-
     return (
         <section className="section-denuncia-table">
             {userData.tipo === 'admin' && <TituloForm titulo='Denúncias' />}
             <section className="table-container">
-                <div className="table-wrapper" style={{ maxHeight: maxHeight }}>
+                <div className="table-wrapper">
                     <table className="denuncia-table">
                         <thead>
                             <tr className="titulo-denuncias-table">
