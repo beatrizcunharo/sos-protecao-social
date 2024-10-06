@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/index.js";
 import { db } from '../firebaseConnection'
 import { collection, getDocs, query, where, updateDoc } from 'firebase/firestore';
 import { useNavigate } from "react-router";

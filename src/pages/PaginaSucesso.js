@@ -1,5 +1,5 @@
 import { useLocation } from "react-router";
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar/index.js"
 
 const PaginaSucesso = () => {
     const location = useLocation();

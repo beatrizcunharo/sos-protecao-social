@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
-import { getDenunciasPorEmailSync, getDenunciasSync, getUserData } from "../utils"
-import MinhasDenuncias from "./MinhasDenuncias"
+import { getDenunciasPorEmailSync, getDenunciasPorProtocoloSync } from "../../services/DenunciaService"
 import { useNavigate } from "react-router"
+import { getUserData } from "../../utils"
+import './conteudoPageDenunciante.css'
+import MinhasDenuncias from "../MinhasDenuncias"
 
 const ConteudoHomePageDenunciante = () => {
     const { email } = getUserData()
@@ -28,10 +30,9 @@ const ConteudoHomePageDenunciante = () => {
             }
         };
 
-        const fetchDenunciasAll = async () => {
+        const fetchDenunciasPorProtocolo = async () => {
             try {
-                const denuncias = await getDenunciasSync();
-
+                const denuncias = await getDenunciasPorProtocoloSync({ protocolo: protocoloBusca });
                 if (denuncias.status === "success") {
                     setDenuncias(denuncias.data);
                 } else {
@@ -46,7 +47,7 @@ const ConteudoHomePageDenunciante = () => {
             fetchDenuncias();
         } else {
             if(protocoloBusca.length === 6) {
-                fetchDenunciasAll();
+                fetchDenunciasPorProtocolo();
             }
         }
     }, [protocoloBusca]);
@@ -55,11 +56,12 @@ const ConteudoHomePageDenunciante = () => {
     const denunciasFiltradas = denuncias && denuncias.filter(item => 
         item.protocolo.toString().includes(protocoloBusca) 
     )
+    
     return (
-        <section className="section-conteudo-home-page">
+        <section>
             <section className="section-conteudo-denunciante" style={{minHeight: hasLowHeight}}>
                 <div className="opcao-denuncia-busca">
-                    <button className="button-opcao" onClick={() => navigate('/cadastro-denuncia')}>Fazer uma denúncia</button>
+                    <button className="button-opcao-denuncia" onClick={() => navigate('/cadastro-denuncia')}>Fazer uma denúncia</button>
                     <p>OU</p>
                     <div class="input-container">
                         <img src="/lucide-search.png" alt="lucide-search" />

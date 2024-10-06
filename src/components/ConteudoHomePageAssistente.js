@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getDenunciasSync } from "../utils";
+import { getDenunciasSync } from "../services/DenunciaService";
 import DetalhesDenunciaTable from "./DetalhesDenunciaTable";
 
 const ConteudoHomePageAssistente = () => {

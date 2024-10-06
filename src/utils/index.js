@@ -1,5 +1,5 @@
 import { db } from '../firebaseConnection';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, getDocs } from 'firebase/firestore';
 
 export function logout() {
     localStorage.removeItem('userData');
@@ -17,66 +17,6 @@ export function gerarProtocolo() {
 
     return numeroComZeros;
 }
-
-export const getDenunciasPorEmail = async () => {
-    const { email } = getUserData();
-
-    if (!email) {
-        throw new Error("Email não fornecido");
-    }
-
-    try {
-        const denunciasRef = collection(db, "denuncias");
-
-        const q = query(denunciasRef, where("email", "==", email));
-
-        const querySnapshot = await getDocs(q);
-
-        const denunciasEncontradas = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-
-        return {
-            status: "success",
-            data: denunciasEncontradas
-        };
-    } catch (error) {
-        console.error("Erro ao buscar denúncias: ", error);
-
-        return {
-            status: "error",
-            message: error.message
-        };
-    }
-};
-
-export const getDenuncias = async () => {
-    try {
-        const denunciasRef = collection(db, "denuncias");
-
-        const q = query(denunciasRef);
-
-        const querySnapshot = await getDocs(q);
-
-        const denunciasEncontradas = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
-
-        return {
-            status: "success",
-            data: denunciasEncontradas
-        };
-    } catch (error) {
-        console.error("Erro ao buscar denúncias: ", error);
-
-        return {
-            status: "error",
-            message: error.message
-        };
-    }
-};
 
 export const getUsuarios = async () => {
     try {
@@ -104,16 +44,6 @@ export const getUsuarios = async () => {
         };
     }
 };
-
-export const getDenunciasPorEmailSync = async () => {
-    const denuncias = await getDenunciasPorEmail()
-    return denuncias
-}
-
-export const getDenunciasSync = async () => {
-    const denuncias = await getDenuncias()
-    return denuncias
-}
 
 export const getUsuariosSync = async () => {
     const usuarios = await getUsuarios()

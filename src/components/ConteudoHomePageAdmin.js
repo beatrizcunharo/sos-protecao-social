@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { getDenunciasSync, getUsuariosSync } from "../utils";
+import { getDenunciasSync } from "../services/DenunciaService";
 import DetalhesDenunciaTable from "./DetalhesDenunciaTable";
 import DetalhesUsuariosTable from "./DetalhesUsuariosTable";
+import { getUsuariosSync } from "../utils";
 
 const ConteudoHomePageAdmin = () => {
     const [denuncias, setDenuncias] = useState();

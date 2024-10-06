@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { db } from '../firebaseConnection';
 import { collection, getDocs, query, where, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/index.js";
 import { useNavigate } from "react-router";
 
 const CadastrarAtualizarUsuarioPage = () => {
