@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar/index.js"
 import { gerarProtocolo, getUserData } from "../utils"
-import { db } from '../firebaseConnection';
-import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router";
+import { getUsuariosByEmail } from "../services/UsuarioService.js";
+import { cadastroDenuncia } from "../services/DenunciaService.js";
+import TituloForm from "../components/TituloForm.js";
 
 const CadastroDenunciaPage = () => {
-    const { email } = getUserData()
+    const { email, tipo } = getUserData()
     const navigate = useNavigate()
-    const userData = getUserData()
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -36,14 +36,11 @@ const CadastroDenunciaPage = () => {
 
             try {
 
-                const q = query(collection(db, 'usuarios'), where('email', '==', email));
+                const querySnapshot = await getUsuariosByEmail({ email });
 
-
-                const querySnapshot = await getDocs(q);
-
-                if (!querySnapshot.empty) {
-                    querySnapshot.forEach((doc) => {
-                        const dadosUsuario = doc.data();
+                if (!querySnapshot.data.empty) {
+                    querySnapshot.data.forEach((doc) => {
+                        const dadosUsuario = doc;
                         setFormData({
                             nome: dadosUsuario.nome,
                             email: email,
@@ -71,16 +68,17 @@ const CadastroDenunciaPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const dataCriacao = new Date(); 
+        const dataCriacao = new Date();
         const dataFormatada = new Intl.DateTimeFormat('pt-BR').format(dataCriacao);
         try {
             const protocoloGerado = gerarProtocolo()
-            await addDoc(collection(db, "denuncias"), {
+
+            const formDataObject = {
                 nome: formData.nome,
                 cpf: formData.cpf,
                 email: formData.email,
                 telefone: formData.telefone,
-                tipo: userData.tipo,
+                tipo: tipo ? tipo : 'denunciante',
                 endereco: formData.endereco,
                 numero: formData.numero,
                 complemento: formData.complemento,
@@ -94,16 +92,18 @@ const CadastroDenunciaPage = () => {
                 status: 'em_aberto',
                 prioridade: 'baixa',
                 medidas: ''
+            }
 
-            });
-            alert('Denúncia enviada com sucesso!');
-            navigate('/sucesso', { state: { title: 'Denúncia Registrada', subtitle: 'Sua denúncia foi registrada com sucesso, acompanhe usando o número de protocolo abaixo:',protocolo: protocoloGerado } })
+            const cadastrarDenuncia = await cadastroDenuncia({ formData: formDataObject })
+            if (cadastrarDenuncia.status === 'success') {
+                alert('Denúncia enviada com sucesso!');
+                navigate('/sucesso', { state: { title: 'Denúncia Registrada', subtitle: 'Sua denúncia foi registrada com sucesso, acompanhe usando o número de protocolo abaixo:', protocolo: protocoloGerado } })
+            }
         } catch (e) {
             console.error("Erro ao gravar o documento: ", e);
             alert('Erro ao enviar a denúncia. Tente novamente.');
         }
-    };
-
+    };    
 
     return (
         <section>
@@ -111,11 +111,12 @@ const CadastroDenunciaPage = () => {
             <div className="container-form-denuncia">
                 {!user &&
                     <>
-                        <p className="title-denuncia">Dados Pessoais</p>
-                        <p className="subtitle-denuncia">Caso queria fazer uma denúncia anônima, basta não preencher</p>
+                        <div className="common-margin-bottom">
+                            <TituloForm titulo='Dados Pessoais' descricao="Caso queria fazer uma denúncia anônima, basta não preencher" temVoltar caminho='/' />
+                        </div>
                         <div className="form-cadastro-denuncia">
                             <div>
-                                <p className="text-input-cadastro-denuncia">Nome Completo</p>
+                                <TituloForm descricao="Nome Completo" />
                                 <input
                                     className="input-denuncia"
                                     name="nome"
@@ -125,7 +126,7 @@ const CadastroDenunciaPage = () => {
                                 />
                             </div>
                             <div>
-                                <p className="text-input-cadastro-denuncia">CPF</p>
+                                <TituloForm descricao="CPF" />
                                 <input
                                     className="input-denuncia"
                                     name="cpf"
@@ -134,7 +135,7 @@ const CadastroDenunciaPage = () => {
                                 />
                             </div>
                             <div>
-                                <p className="text-input-cadastro-denuncia">E-mail</p>
+                                <TituloForm descricao="E-mail" />
                                 <input
                                     className="input-denuncia"
                                     name="email"
@@ -144,7 +145,7 @@ const CadastroDenunciaPage = () => {
                                 />
                             </div>
                             <div>
-                                <p className="text-input-cadastro-denuncia">Telefone</p>
+                                <TituloForm descricao="Telefone" />
                                 <input
                                     className="input-denuncia"
                                     name="telefone"
@@ -155,10 +156,13 @@ const CadastroDenunciaPage = () => {
                         </div>
                     </>
                 }
-                <p className="title-denuncia" style={{ marginTop: '50px' }}>Local da Denuncia</p>
+                <div className="common-margin-bottom">
+                    <TituloForm titulo='Local da Denuncia' descricao="Qual foi o último lugar onde você viu a criança" temVoltar={email} caminho={'/'}/>
+                </div>
+
                 <div className="form-cadastro-denuncia">
                     <div>
-                        <p className="text-input-cadastro">Endereço</p>
+                        <TituloForm descricao="Endereço" />
                         <input
                             className="input-cadastro"
                             name="endereco"
@@ -168,7 +172,7 @@ const CadastroDenunciaPage = () => {
                         />
                     </div>
                     <div>
-                        <p className="text-input-cadastro">Número</p>
+                        <TituloForm descricao="Número" />
                         <input
                             className="input-cadastro"
                             name="numero"
@@ -178,7 +182,7 @@ const CadastroDenunciaPage = () => {
                         />
                     </div>
                     <div>
-                        <p className="text-input-cadastro">Complemento</p>
+                        <TituloForm descricao="Complemento" />
                         <input
                             className="input-cadastro"
                             name="complemento"
@@ -187,7 +191,7 @@ const CadastroDenunciaPage = () => {
                         />
                     </div>
                     <div>
-                        <p className="text-input-cadastro">Bairro</p>
+                        <TituloForm descricao="Bairro" />
                         <input
                             className="input-cadastro"
                             name="bairro"
@@ -196,7 +200,7 @@ const CadastroDenunciaPage = () => {
                         />
                     </div>
                     <div>
-                        <p className="text-input-cadastro">Cidade</p>
+                        <TituloForm descricao="Cidade" />
                         <input
                             className="input-cadastro"
                             name="cidade"
@@ -205,7 +209,7 @@ const CadastroDenunciaPage = () => {
                         />
                     </div>
                     <div>
-                        <p className="text-input-cadastro">Estado</p>
+                        <TituloForm descricao="Estado" />
                         <input
                             className="input-cadastro"
                             name="estado"
@@ -214,7 +218,7 @@ const CadastroDenunciaPage = () => {
                         />
                     </div>
                     <div>
-                        <p className="text-input-cadastro">CEP</p>
+                        <TituloForm descricao="CEP" />
                         <input
                             className="input-cadastro"
                             name="cep"
@@ -222,8 +226,9 @@ const CadastroDenunciaPage = () => {
                             onChange={handleInputChange}
                         />
                     </div>
+                </div><div className="common-margin-bottom">
+                    <TituloForm titulo='Descreva a Denúncia' descricao="Preencha com a maior riqueza de detalhes possível. Inclua informações como cor da pele, altura aproximada, tipo de cabelo, descrição das roupas, etc."/>
                 </div>
-                <p className="title-denuncia" style={{ marginTop: '50px' }}>Descreva a Denúncia</p>
                 <form className="form-cadastro-denuncia" onSubmit={handleSubmit}>
                     <textarea
                         className="input-cadastro"

@@ -3,6 +3,7 @@ import { useLocation } from "react-router";
 import Navbar from "../components/Navbar/index.js";
 import { db } from '../firebaseConnection'
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import TituloForm from "../components/TituloForm.js";
 
 const DetalhesDenunciaPage = () => {
     const location = useLocation();
@@ -79,10 +80,10 @@ const DetalhesDenunciaPage = () => {
             <Navbar />
             <div className="section-detalhe-denuncia">
                 <div>
-                    <p className="title-detalhe-denuncia">Situação da denúncia</p>
+                    <TituloForm titulo='Situação da denúncia' temVoltar caminho='/' />
                     <div className="form-detalhe-denuncia">
                         <div>
-                            <p className="text-input-detalhe-denuncia">Situação</p>
+                            <TituloForm descricao='Situação' />
                             <input
                                 className="input-denuncia"
                                 name="status"
@@ -91,7 +92,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Protocolo</p>
+                            <TituloForm descricao='Protocolo' />
                             <input
                                 className="input-denuncia"
                                 name="protocolo"
@@ -102,9 +103,10 @@ const DetalhesDenunciaPage = () => {
                     </div>
                 </div>
                 <div>
-                    <p className="title-detalhe-denuncia">Medidas tomadas</p>
+                    <TituloForm titulo='Medidas tomadas' />
+
                     <div className="form-detalhe-denuncia">
-                        <p className="text-input-detalhe-denuncia">Descrições das Ações Tomadas</p>
+                        <TituloForm descricao='Descrições das Ações Tomadas' />
                         <textarea
                             className="input-denuncia"
                             name="descricao"
@@ -115,10 +117,11 @@ const DetalhesDenunciaPage = () => {
                     </div>
                 </div>
                 <div>
-                    <p className="title-detalhe-denuncia">Dados do denunciante</p>
+                    <TituloForm titulo='Dados do denunciante' />
+
                     <div className="form-detalhe-denuncia">
                         <div>
-                            <p className="text-input-detalhe-denuncia">Nome Completo</p>
+                            <TituloForm descricao='Nome Completo' />
                             <input
                                 className="input-denuncia"
                                 name="nome"
@@ -128,7 +131,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">CPF</p>
+                            <TituloForm descricao='CPF' />
                             <input
                                 className="input-denuncia"
                                 name="cpf"
@@ -137,7 +140,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">E-mail</p>
+                            <TituloForm descricao='E-mail' />
                             <input
                                 className="input-denuncia"
                                 name="email"
@@ -147,7 +150,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Telefone</p>
+                            <TituloForm descricao='Telefone' />
                             <input
                                 className="input-denuncia"
                                 name="telefone"
@@ -158,10 +161,11 @@ const DetalhesDenunciaPage = () => {
                     </div>
                 </div>
                 <div>
-                    <p className="title-detalhe-denuncia">Local da denúncia</p>
+                    <TituloForm titulo='Local da denúncia' />
+
                     <div className="form-detalhe-denuncia">
                         <div>
-                            <p className="text-input-detalhe-denuncia">Endereço</p>
+                            <TituloForm descricao='Endereço' />
                             <input
                                 className="input-denuncia"
                                 name="endereco"
@@ -170,7 +174,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Número</p>
+                            <TituloForm descricao='Número' />
                             <input
                                 className="input-denuncia"
                                 name="numero"
@@ -180,7 +184,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Complemento</p>
+                            <TituloForm descricao='Complemento' />
                             <input
                                 className="input-denuncia"
                                 name="complemento"
@@ -190,7 +194,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Bairro</p>
+                            <TituloForm descricao='Bairro' />
                             <input
                                 className="input-denuncia"
                                 name="bairro"
@@ -200,7 +204,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Cidade</p>
+                            <TituloForm descricao='Cidade' />
                             <input
                                 className="input-denuncia"
                                 name="cidade"
@@ -209,7 +213,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">Estado</p>
+                            <TituloForm descricao='Estado' />
                             <input
                                 className="input-denuncia"
                                 name="estado"
@@ -218,7 +222,7 @@ const DetalhesDenunciaPage = () => {
                             />
                         </div>
                         <div>
-                            <p className="text-input-detalhe-denuncia">CEP</p>
+                            <TituloForm descricao='CEP' />
                             <input
                                 className="input-denuncia"
                                 name="cep"
@@ -229,7 +233,7 @@ const DetalhesDenunciaPage = () => {
                     </div>
                 </div>
                 <div>
-                    <p className="title-detalhe-denuncia">Descrição da denúncia</p>
+                    <TituloForm titulo='Descrição da denúncia' />
                     <form className="form-detalhe-denuncia">
                         <textarea
                             className="input-denuncia"
