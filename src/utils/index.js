@@ -78,6 +78,33 @@ export const getDenuncias = async () => {
     }
 };
 
+export const getUsuarios = async () => {
+    try {
+        const usuarios = collection(db, "usuarios");
+        
+        const q = query(usuarios);
+        
+        const querySnapshot = await getDocs(q);
+        
+        const usuariosEncontrados = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+        return {
+            status: "success",
+            data: usuariosEncontrados
+        };
+    } catch (error) {
+        console.error("Erro ao buscar usuarios: ", error);
+
+        return {
+            status: "error",
+            message: error.message
+        };
+    }
+};
+
 export const getDenunciasPorEmailSync = async () => {
     const denuncias = await getDenunciasPorEmail()
     return denuncias
@@ -86,6 +113,11 @@ export const getDenunciasPorEmailSync = async () => {
 export const getDenunciasSync = async () => {
     const denuncias = await getDenuncias()
     return denuncias
+}
+
+export const getUsuariosSync = async () => {
+    const usuarios = await getUsuarios()
+    return usuarios
 }
 
 export const ScrollToTop = () => {

@@ -1,3 +1,4 @@
+import ConteudoHomePageAdmin from "../components/ConteudoHomePageAdmin"
 import ConteudoHomePageAssistente from "../components/ConteudoHomePageAssistente"
 import ConteudoHomePageDenunciante from "../components/ConteudoHomePageDenunciante"
 import Navbar from "../components/Navbar"
@@ -11,6 +12,7 @@ const Home = () => {
             <Navbar />
             {(tipo === 'denunciante' || !tipo) && <ConteudoHomePageDenunciante/>}
             {tipo === 'assistente' && <ConteudoHomePageAssistente/>}
+            {tipo === 'admin' && <ConteudoHomePageAdmin/>}
         </section>
     )
 }

@@ -38,7 +38,7 @@
 .input-cadastro,
 .input-opcao,
 .input-denuncia,
-.minha-denuncia-content {
+.minha-denuncia-content, .input-detail-usuario {
     width: 313px;
     height: 48px;
     top: 396px;
@@ -53,7 +53,7 @@
 .button-cadastro,
 .button-opcao,
 .button-cadastro-denuncia,
-.button-scroll-top, .button-atualizar-denuncia {
+.button-scroll-top, .button-atualizar-denuncia, .button-cadastrar-usuario {
     width: 313px;
     height: 48px;
     border-radius: 20px;
@@ -66,7 +66,7 @@
 .text-input-login,
 .text-input-cadastro,
 .text-input-cadastro-denuncia,
-.text-input-detalhe-denuncia {
+.text-input-detalhe-denuncia, .text-input-cadastro-atualiza-usuario {
     margin: 0px;
 }
 
@@ -114,7 +114,7 @@
 }
 
 .not-logged-button,
-.minhas-denuncias-detalhe-button {
+.minhas-denuncias-detalhe-button, .usuarios-detalhe-button {
     width: 202px;
     height: 48px;
     border-radius: 20px;
@@ -158,7 +158,7 @@
 
 .container-form-denuncia,
 .section-detalhe-denuncia,
-.section-denuncia-table {
+.section-denuncia-table, .section-usuarios-table, .section-cadastro-atualiza-usuario {
     padding: 15px;
 }
 
@@ -166,7 +166,7 @@
 .title-sucess,
 .title-minhas-denuncias,
 .title-minha-denuncia,
-.title-detalhe-denuncia, .title-table-denuncia {
+.title-detalhe-denuncia, .title-table-denuncia, .title-table-usuarios, .title-cadastro-atualizar-usuario {
     font-size: 24px;
     font-weight: 400;
     line-height: 25px;
@@ -189,7 +189,7 @@
 }
 
 .form-cadastro-denuncia,
-.form-detalhe-denuncia {
+.form-detalhe-denuncia, .form-cadastro-atualiza-usuario {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
@@ -232,7 +232,7 @@
     margin-bottom: 20px;
 }
 
-.section-detalhe-denuncia {
+.section-detalhe-denuncia, .section-cadastro-atualiza-usuario {
     display: flex;
     flex-direction: column;
     gap: 45px;
@@ -261,12 +261,12 @@
     border-radius: 20px;
 }
 
-.denuncia-table {
+.denuncia-table, .usuarios-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.titulo-denuncias-table {
+.titulo-denuncias-table, .titulo-usuarios-table {
     font-size: 24px;
     font-weight: 700;
     line-height: 29.05px;
@@ -274,8 +274,14 @@
     padding: 10px;
 }
 
-.denuncias-table-linhas {
+.denuncias-table-linhas, .usuarios-table-linhas {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+}
+
+.button-content-cad-at-usuario {
+    display: flex;
+    gap: 20px;
+    padding: 15px;
 }

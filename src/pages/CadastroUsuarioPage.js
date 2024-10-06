@@ -9,8 +9,7 @@ const CadastroUsuarioPage = () => {
         telefone: '',
         cpf: '',
         senha: '',
-        confirmarSenha: '',
-        tipo: 'denunciante'
+        confirmarSenha: ''
     });
 
     const handleInputChange = (event) => {
@@ -46,7 +45,8 @@ const CadastroUsuarioPage = () => {
                 telefone: '',
                 cpf: '',
                 senha: '',
-                confirmarSenha: ''
+                confirmarSenha: '',
+                tipo: 'denunciante'
             });
         } catch (error) {
             console.error('Erro ao cadastrar usuário:', error);
