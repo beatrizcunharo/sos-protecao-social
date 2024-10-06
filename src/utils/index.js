@@ -12,14 +12,14 @@ export function getUserData() {
 
 export function gerarProtocolo() {
     const numero = Math.floor(Math.random() * 1000000);
-    
+
     const numeroComZeros = numero.toString().padStart(6, '0');
-    
+
     return numeroComZeros;
 }
 
 export const getDenunciasPorEmail = async () => {
-    const {email} = getUserData();
+    const { email } = getUserData();
 
     if (!email) {
         throw new Error("Email não fornecido");
@@ -27,11 +27,11 @@ export const getDenunciasPorEmail = async () => {
 
     try {
         const denunciasRef = collection(db, "denuncias");
-        
+
         const q = query(denunciasRef, where("email", "==", email));
-        
+
         const querySnapshot = await getDocs(q);
-        
+
         const denunciasEncontradas = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
@@ -54,11 +54,11 @@ export const getDenunciasPorEmail = async () => {
 export const getDenuncias = async () => {
     try {
         const denunciasRef = collection(db, "denuncias");
-        
+
         const q = query(denunciasRef);
-        
+
         const querySnapshot = await getDocs(q);
-        
+
         const denunciasEncontradas = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
@@ -81,11 +81,11 @@ export const getDenuncias = async () => {
 export const getUsuarios = async () => {
     try {
         const usuarios = collection(db, "usuarios");
-        
+
         const q = query(usuarios);
-        
+
         const querySnapshot = await getDocs(q);
-        
+
         const usuariosEncontrados = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
@@ -122,20 +122,21 @@ export const getUsuariosSync = async () => {
 
 export const ScrollToTop = () => {
     const scrollToTop = () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
     };
-  
+
     return (
-      <div>
-        <button
-          onClick={scrollToTop}
-          className='button-scroll-top'
-        >
-          Voltar ao topo
-        </button>
-      </div>
+        <div>
+            <button
+                onClick={scrollToTop}
+                className='button-scroll-top'
+            >
+                Voltar ao topo
+            </button>
+        </div>
     );
-  };
+};
+

@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import RoutesApp from "./routes";
-import './App.css'
+import './styles/comon.css'
 import { logout } from "./utils";
 
 function App() {

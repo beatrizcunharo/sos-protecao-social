@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { db } from '../firebaseConnection'
-import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router';
+import { getLogin } from '../../services/LoginService';
+import './login.css'
+import TituloForm from '../../components/TituloForm';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,18 +12,17 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if(email === '' || senha === '') {
+        if (email === '' || senha === '') {
             alert('Preencha os campos.');
             return;
         }
 
-        const q = query(collection(db, 'usuarios'), where('email', '==', email), where('senha', '==', senha));
-        const querySnapshot = await getDocs(q);
+        const querySnapshot = await getLogin({ email, senha })
 
-        if (!querySnapshot.empty) {
-            const userData = querySnapshot.docs[0].data();
-            const nome = userData.nome;
-            const tipo = userData.tipo;
+        if (!querySnapshot.data.empty) {
+            const userData = querySnapshot.data?.docs[0].data();
+            const nome = userData?.nome;
+            const tipo = userData?.tipo;
 
             const options = {
                 email,
@@ -42,16 +42,17 @@ const Login = () => {
         <section className="login">
             <form onSubmit={handleSubmit} className="login-content">
                 <div>
-                    <p className="text-input-login">E-mail</p>
+                    <TituloForm descricao="E-mail" />
+
                     <input
                         className="input-login"
-                        type="email"
+                        type="text"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
                 <div>
-                    <p className="text-input-login">Senha</p>
+                    <TituloForm descricao="Senha" />
                     <input
                         className="input-login"
                         type="password"

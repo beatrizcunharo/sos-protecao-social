@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { db } from '../firebaseConnection';
-import { collection, addDoc } from 'firebase/firestore';
+import './cadastroUsuario.css'
+import TituloForm from "../../components/TituloForm";
+import { cadastroUsuario } from "../../services/UsuarioService";
 
 const CadastroUsuarioPage = () => {
     const [formData, setFormData] = useState({
@@ -20,8 +21,8 @@ const CadastroUsuarioPage = () => {
         });
     };
 
-    function disabledButton () {
-        if(formData.nome === '' || formData.email === '' || formData.telefone === '' || formData.cpf === '' || formData.senha === '' || formData.confirmarSenha === '') return true
+    function disabledButton() {
+        if (formData.nome === '' || formData.email === '' || formData.telefone === '' || formData.cpf === '' || formData.senha === '' || formData.confirmarSenha === '') return true
 
         return false
     }
@@ -29,7 +30,7 @@ const CadastroUsuarioPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if(formData.nome === '' || formData.email === '' || formData.telefone === '' || formData.cpf === '' || formData.senha === '' || formData.confirmarSenha === '') return;
+        if (formData.nome === '' || formData.email === '' || formData.telefone === '' || formData.cpf === '' || formData.senha === '' || formData.confirmarSenha === '') return;
 
         if (formData.senha !== formData.confirmarSenha) {
             alert('As senhas não coincidem');
@@ -37,17 +38,19 @@ const CadastroUsuarioPage = () => {
         }
 
         try {
-            await addDoc(collection(db, 'usuarios'), formData);
-            alert('Usuário cadastrado com sucesso!');
-            setFormData({
-                nome: '',
-                email: '',
-                telefone: '',
-                cpf: '',
-                senha: '',
-                confirmarSenha: '',
-                tipo: 'denunciante'
-            });
+            const usuarioData = await cadastroUsuario({ formData })
+            if (usuarioData.status === 'sucess') {
+                alert('Usuário cadastrado com sucesso!');
+                setFormData({
+                    nome: '',
+                    email: '',
+                    telefone: '',
+                    cpf: '',
+                    senha: '',
+                    confirmarSenha: '',
+                    tipo: 'denunciante'
+                });
+            }
         } catch (error) {
             console.error('Erro ao cadastrar usuário:', error);
             alert('Ocorreu um erro ao cadastrar o usuário.');
@@ -56,9 +59,9 @@ const CadastroUsuarioPage = () => {
 
     return (
         <section className="cadastro-usuario">
-            <form onSubmit={handleSubmit} className="cadastro-content">
+            <form onSubmit={handleSubmit} className="cadastro-usuario-content">
                 <div>
-                    <p className="text-input-cadastro">Nome Completo</p>
+                    <TituloForm descricao="Nome Completo" />
                     <input
                         className="input-cadastro"
                         name="nome"
@@ -67,7 +70,7 @@ const CadastroUsuarioPage = () => {
                     />
                 </div>
                 <div>
-                    <p className="text-input-cadastro">E-mail</p>
+                    <TituloForm descricao="E-mail" />
                     <input
                         className="input-cadastro"
                         name="email"
@@ -76,7 +79,7 @@ const CadastroUsuarioPage = () => {
                     />
                 </div>
                 <div>
-                    <p className="text-input-cadastro">Telefone</p>
+                    <TituloForm descricao="Telefone" />
                     <input
                         className="input-cadastro"
                         name="telefone"
@@ -85,7 +88,7 @@ const CadastroUsuarioPage = () => {
                     />
                 </div>
                 <div>
-                    <p className="text-input-cadastro">CPF</p>
+                    <TituloForm descricao="CPF" />
                     <input
                         className="input-cadastro"
                         name="cpf"
@@ -94,7 +97,7 @@ const CadastroUsuarioPage = () => {
                     />
                 </div>
                 <div>
-                    <p className="text-input-cadastro">Senha</p>
+                    <TituloForm descricao="Senha" />
                     <input
                         type="password"
                         className="input-cadastro"
@@ -104,7 +107,7 @@ const CadastroUsuarioPage = () => {
                     />
                 </div>
                 <div>
-                    <p className="text-input-cadastro">Confirmar Senha</p>
+                    <TituloForm descricao="Confirmar Senha" />
                     <input
                         type="password"
                         className="input-cadastro"
