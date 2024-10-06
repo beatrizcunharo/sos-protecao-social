@@ -12,7 +12,7 @@ const SucessoPage = () => {
             <Navbar />
             <div className="container-sucesso-pagina">
                 <div className="container-sucesso-pagina-content">
-                <div className="x-button-sucess"><a href="/"><img src="lucide-x.png"/></a></div>
+                <div className="x-button-sucess"><a href="/"><img src="lucide-x.png" alt="close-button"/></a></div>
                     <img src='lucid-circle-check-big.png' alt="lucid-circle-check-big"/>
                     {title && <TituloForm titulo={title}/>}
                     {subtitle && <p className="subtitle-sucess" style={{width: '100%', textAlign: "center"}}>{subtitle}</p>}

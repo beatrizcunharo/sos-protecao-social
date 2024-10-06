@@ -50,7 +50,7 @@ const ConteudoHomePageDenunciante = () => {
                 fetchDenunciasPorProtocolo();
             }
         }
-    }, [protocoloBusca]);
+    }, [protocoloBusca, email]);
 
     const hasLowHeight = (denuncias && denuncias.length > 0) && '700px'
     const denunciasFiltradas = denuncias && denuncias.filter(item => 

@@ -45,7 +45,7 @@
 }
 
 .not-logged-button,
-.minhas-denuncias-detalhe-button, .usuarios-detalhe-button {
+.minhas-denuncias-detalhe-button, .usuarios-detalhe-button, .table-denuncias-filtro-button {
     width: 202px;
     height: 48px;
     border-radius: 20px;
@@ -200,4 +200,9 @@
 .common-margin-bottom {
     margin-bottom: 30px;
     margin-top: 30px;
+}
+
+.content-title-tabela-denuncias {
+    display: flex;
+    align-items: center;
 }

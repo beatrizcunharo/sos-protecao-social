@@ -68,7 +68,7 @@ const AtualizarDenunciaPage = () => {
         }
 
         getDenunciaDetail();
-    }, [])
+    }, [protocolo])
 
     const handleChange = (e) => {
         const { name, value } = e.target;

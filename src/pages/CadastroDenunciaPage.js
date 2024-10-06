@@ -56,7 +56,7 @@ const CadastroDenunciaPage = () => {
         }
 
         compararEmail();
-    }, [])
+    }, [email])
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;

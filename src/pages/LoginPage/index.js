@@ -63,7 +63,7 @@ const Login = () => {
                 <button className="button-login" disabled={email === '' || senha === ''}>Login</button>
                 <div className="other-links-login">
                     <a href="/cadastro-usuario"><u>Criar conta</u></a>
-                    <a><u>Esqueci minha senha</u></a>
+                    <a href='/login'><u>Esqueci minha senha</u></a>
                 </div>
             </form>
         </section>

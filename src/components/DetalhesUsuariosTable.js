@@ -13,7 +13,7 @@ const DetalhesUsuariosTable = ({ usuarios }) => {
                                 <th className="usuarios-table-linhas">NOME</th>
                                 <th className="usuarios-table-linhas">E-MAIL</th>
                                 <th className="usuarios-table-linhas">TIPO</th>
-                                <th className="usuarios-table-linhas"><button className="usuarios-detalhe-button" onClick={() => navigate('/cadastrar-atualizar-usuario')}><img src='/lucide-plus.png' />Criar Usuário</button></th>
+                                <th className="usuarios-table-linhas"><button className="usuarios-detalhe-button" onClick={() => navigate('/cadastrar-atualizar-usuario')}><img src='/lucide-plus.png' alt="criar-usuario"/>Criar Usuário</button></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -23,7 +23,7 @@ const DetalhesUsuariosTable = ({ usuarios }) => {
                                     <td className="usuarios-table-linhas">{usuario.email}</td>
                                     <td className="usuarios-table-linhas">{usuario.tipo}</td>
                                     <td className="usuarios-table-linhas">
-                                        <button className="usuarios-detalhe-button" onClick={() => navigate('/cadastrar-atualizar-usuario', { state: { email: usuario.email } })}><img src='/lucide-list-collapse.png' />Atualizar</button>
+                                        <button className="usuarios-detalhe-button" onClick={() => navigate('/cadastrar-atualizar-usuario', { state: { email: usuario.email } })}><img src='/lucide-list-collapse.png' alt="atualizar"/>Atualizar</button>
                                     </td>
                                 </tr>
                             ))}

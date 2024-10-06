@@ -67,7 +67,7 @@ const DetalhesDenunciaPage = () => {
         }
 
         getDenunciaDetail();
-    }, [])
+    }, [protocolo])
 
     const inputProps = {
         disabled: true
