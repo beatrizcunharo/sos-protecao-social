@@ -1,3 +1,4 @@
+import ConteudoHomePageAssistente from "../components/ConteudoHomePageAssistente"
 import ConteudoHomePageDenunciante from "../components/ConteudoHomePageDenunciante"
 import Navbar from "../components/Navbar"
 import { getUserData } from "../utils"
@@ -9,6 +10,7 @@ const Home = () => {
         <section>
             <Navbar />
             {(tipo === 'denunciante' || !tipo) && <ConteudoHomePageDenunciante/>}
+            {tipo === 'assistente' && <ConteudoHomePageAssistente/>}
         </section>
     )
 }

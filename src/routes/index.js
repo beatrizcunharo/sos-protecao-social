@@ -5,6 +5,7 @@ import CadastroUsuarioPage from '../pages/CadastroUsuarioPage.js';
 import CadastroDenunciaPage from '../pages/CadastroDenunciaPage.js';
 import PaginaSucesso from '../pages/PaginaSucesso.js';
 import DetalhesDenunciaPage from '../pages/DetalhesDenunciaPage.js';
+import AtualizarDenunciaPage from '../pages/AtualizarDenunciaPage.js';
 
 function RoutesApp () {
     return (
@@ -15,6 +16,7 @@ function RoutesApp () {
             <Route path='/cadastro-denuncia' element={ <CadastroDenunciaPage/> }/>
             <Route path='/sucesso' element={ <PaginaSucesso/> }/>
             <Route path='/detalhes-denuncia' element={ <DetalhesDenunciaPage/> }/>
+            <Route path='/atualizar-denuncia' element={ <AtualizarDenunciaPage/> }/>
         </Routes>
     )
 }

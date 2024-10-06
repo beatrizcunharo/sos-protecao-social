@@ -87,3 +87,23 @@ export const getDenunciasSync = async () => {
     const denuncias = await getDenuncias()
     return denuncias
 }
+
+export const ScrollToTop = () => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    };
+  
+    return (
+      <div>
+        <button
+          onClick={scrollToTop}
+          className='button-scroll-top'
+        >
+          Voltar ao topo
+        </button>
+      </div>
+    );
+  };

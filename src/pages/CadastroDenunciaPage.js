@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 const CadastroDenunciaPage = () => {
     const { email } = getUserData()
     const navigate = useNavigate()
+    const userData = getUserData()
 
     const [formData, setFormData] = useState({
         nome: '',
@@ -79,7 +80,7 @@ const CadastroDenunciaPage = () => {
                 cpf: formData.cpf,
                 email: formData.email,
                 telefone: formData.telefone,
-                tipo: 'denunciante',
+                tipo: userData.tipo,
                 endereco: formData.endereco,
                 numero: formData.numero,
                 complemento: formData.complemento,
@@ -90,8 +91,8 @@ const CadastroDenunciaPage = () => {
                 descricao: formData.descricao,
                 dataCriacao: dataFormatada,
                 protocolo: protocoloGerado,
-                status: 'Em aberto',
-                prioridade: 'Baixa',
+                status: 'em_aberto',
+                prioridade: 'baixa',
                 medidas: ''
 
             });

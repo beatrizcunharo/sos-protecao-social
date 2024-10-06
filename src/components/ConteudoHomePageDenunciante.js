@@ -57,7 +57,7 @@ const ConteudoHomePageDenunciante = () => {
     )
     return (
         <section className="section-conteudo-home-page">
-            <section className="section-conteido-denunciante" style={{minHeight: hasLowHeight}}>
+            <section className="section-conteudo-denunciante" style={{minHeight: hasLowHeight}}>
                 <div className="opcao-denuncia-busca">
                     <button className="button-opcao" onClick={() => navigate('/cadastro-denuncia')}>Fazer uma denúncia</button>
                     <p>OU</p>
