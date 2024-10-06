@@ -14,7 +14,6 @@ const CadastroDenunciaPage = () => {
         email: '',
         telefone: '',
         cpf: '',
-        tipo: 'denunciante',
         endereco: '',
         numero: '',
         complemento: '',
@@ -23,10 +22,6 @@ const CadastroDenunciaPage = () => {
         estado: '',
         cep: '',
         descricao: '',
-        dataCriacao: '',
-        protocolo: '',
-        status: 'Em aberto',
-        prioridade: 'Baixa'
     });
 
     const [user, hasUser] = useState(false)
@@ -96,7 +91,8 @@ const CadastroDenunciaPage = () => {
                 dataCriacao: dataFormatada,
                 protocolo: protocoloGerado,
                 status: 'Em aberto',
-                prioridade: 'Baixa'
+                prioridade: 'Baixa',
+                medidas: ''
 
             });
             alert('Denúncia enviada com sucesso!');
